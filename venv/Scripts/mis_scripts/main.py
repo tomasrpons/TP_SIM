@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import style
 import tabulate
 import statistics
-import truncate
+
 
 def valor_puntual(grados_libertad):
     lista = ['3,8415', '5,9915', '7,8147', '9,4877', '11,0705', '12,5916', '14,0671', '15,5073', '16,9190', '18,3070', '19,6752', '21,0261', '22,3620', '23,6848', '24,9958', '26,2962', '27,5871', '28,8693', '30,1435', '31,4104', '32,6706', '33,9245', '35,1725', '36,4150', '37,6525', '38,8851', '40,1133', '41,3372', '42,5569', '43,7730', '44,9853', '46,1942', '47,3999', '48,6024', '49,8018', '50,9985', '52,1923', '53,3835', '54,5722', '55,7585', '61,6562', '67,5048', '73,3115', '79,0820', '90,5313', '101,8795', '113,1452', '124,3421', '146,5673', '168,6130', '190,5164', '212,3039', '233,9942', '287,8815', '341,3951', '553,1269', '658,0936']
@@ -152,7 +152,7 @@ def main():
                 visualizar(numeros)
 
             nueva_media = statistics.mean(numeros)
-            lib.prueba_chi2(numeros, inter, 1, nueva_media)
+            lib.poisson(numeros, inter, 1, nueva_media)
 
         if op == 4: #Normal
             op2 = -1
@@ -168,8 +168,7 @@ def main():
                 des = float(input("Ingrese la desviación estándar (1 por defecto): "))
                 numeros = lib.aleatoria_normal_muller(cant_num, media, des)
             if op2 == 2:
-                cant_n41um = int(input("\nIngrese la cantidad de Valores: "))
-                inter = int(input("Ingrese la cantidad de invervalos: "))
+                cant_num = int(input("\nIngrese la cantidad de Valores: "))
                 inter = int(input("Ingrese la cantidad de invervalos: "))
                 media = float(input("Ingrese la media (0.5 por defecto): "))
                 des = float(input("Ingrese la desviación estándar (0.083 por defecto): "))

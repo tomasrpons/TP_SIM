@@ -5,6 +5,7 @@ import statistics as stats
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import style
 import tabulate
+import numpy as np
 
 
 def aleatoria_uniforme(cant_num, lim_inf, lim_sup):
@@ -32,16 +33,13 @@ def aleatoria_exponencial(cant_numeros, lamda=0, u=0):
 
 
 def aleatoria_poisson(cant_numeros, media):
-    p = 1
-    x = -1
-    a = math.exp(-media)
     numeros = []
     for i in range(cant_numeros):
-        u = random.random()
-        p = p * u
-        x = x + 1
+        p = 1
+        x = -1
+        a = math.exp(-media)
         while (p >= a):
-            u = random.random()
+            u = random.uniform(0,1)
             p = p * u
             x = x + 1
         numeros.append(x)
@@ -65,7 +63,7 @@ def aleatoria_normal_convolucion(cant_numeros, media=0.5, varianza=1 / 12):
     for i in range(cant_numeros):
         x = 0
         for i in range(12):
-            x += random.uniform(0.1)
+            x += random.uniform(0,1)
         z = (x - 6) * varianza + media
         numeros.append(z)
     return numeros
@@ -98,15 +96,15 @@ def calculaFactorial(n):
 def esperado_poisson(marca, lamda):
     numerador = pow(lamda, marca) * pow(math.e, (-lamda))
     denom = calculaFactorial(int(marca))
-    return truncate((numerador / denom), 4)
+    return (numerador / denom)
 
 
 def obtener_esperados_poisson(numeros, intervalos, l):
     frec_esperada = []
-    for i in range(len(intervalos) - 1):
-        marca = (intervalos[i] + intervalos[i + 1]) / 2
+    for i in range(len(intervalos)):
+        marca = intervalos[i]
         esperado = esperado_poisson(marca, l)
-        frec_esperada.append(truncate((esperado * len(numeros)), 2))
+        frec_esperada.append(truncate((esperado * len(numeros)), 4))
     return frec_esperada
 
 
@@ -192,7 +190,6 @@ def prueba_chi2(numeros, cant_int, ddof, u):
 
     for i in range(len(numeros)):  # Para cada numero analiza el intervalo en el cual se encuentra
         for j in range(cant_int):  # y acumula 1 al valor. Aqui vemos la frecuencia obtenida.
-            print(numeros[i], intervalos[j], numeros[i] <= intervalos[j], contador)
             if numeros[i] <= intervalos[j]:
                 if numeros[i] == intervalos[-1]:
                     contador[-1] += 1
@@ -204,7 +201,9 @@ def prueba_chi2(numeros, cant_int, ddof, u):
                 if numeros[i] < intervalos[0]:
                     contador[0] += 1
                     break
+
     print(sum(contador))
+    print(sum(frec_esperada))
 
     est_prueba = []
     sumatoria = []
@@ -232,8 +231,8 @@ def prueba_chi2(numeros, cant_int, ddof, u):
 
     plt.hist(numeros, bins=intervalos,
              edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
-    for i in range(len(intervalos) - 1):
-        plt.axhline(frec_esperada[i], xmin=intervalos[i], xmax=intervalos[i + 1])
+    for i in range(len(intervals) - 1):
+        plt.axhline(frec_esperada[i], xmin=intervals[i], xmax=intervals[i + 1])
     plt.xlabel('Intervalos')
     plt.ylabel('Frecuencia')
     plt.legend('EO')
@@ -249,3 +248,63 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     else:
         print("Se rechaza la hipóteis nula")
     print("\n")
+
+
+def poisson(numeros, cant_int, ddof, l):
+
+    #Obtenemos la frecuencia esperada
+    contador = [0] * len(np.unique(numeros))
+    frec_esperada = obtener_esperados_poisson(numeros,contador, l)
+    min = np.min(numeros)
+    max = np.max(numeros)
+
+    for i in range(len(numeros)):
+        contador[(numeros[i]-min)] += 1
+
+    for i in range(len(numeros)):
+        for j in range(len(contador)):
+            if numeros[i] == j + min:
+
+
+
+
+
+
+    est_prueba = []
+    sumatoria = []
+    suma = 0
+    for i in range(cant_int):  # Debido a que los numeros generados tienen demasiados decimales,
+        if frec_esperada[i] == 0:
+            a = 0
+        else:
+            a = pow((frec_esperada[i] - contador[i]),2) / frec_esperada[i]  # con este método truncamos a 2 decimales todos los obtenidos.
+        a = truncate(a, 2)
+        est_prueba.append(a)
+        suma += a
+        sumatoria.append(suma)
+
+
+    resultados = {'Intervalos': contador, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
+    res = tabulate.tabulate(resultados, headers=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'],
+                            tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
+    print(res)
+
+    plt.hist(numeros, bins=contador,
+             edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
+
+    plt.xlabel('Valores')
+    plt.ylabel('Frecuencia')
+    plt.legend('EO')
+    plt.title('Distribucion de los valores acuerdo a su frecuencia')
+    plt.grid()
+    plt.show()
+    valor_critico = valor_puntual(cant_int - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
+    print("El valor crítico con 95% de significancia es: ", valor_critico)
+    print("El estadístico de prueba es: ", suma)
+    if valor_critico > suma:
+        print("No se puede rechazar la hipótesis nula")
+    else:
+        print("Se rechaza la hipóteis nula")
+    print("\n")
+
+
