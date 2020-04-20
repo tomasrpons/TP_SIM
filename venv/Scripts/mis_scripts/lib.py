@@ -50,7 +50,7 @@ def aleatoria_poisson(cant_numeros, media):
 
 def aleatoria_normal_muller(cant_numeros, media, desviacion):
     numeros = []
-    for i in range(cant_numeros // 2):
+    for i in range(round(cant_numeros / 2)):
         n1 = (pow((-2 * ln(random.uniform(0, 1))), 0.5) * math.cos(
             2 * math.pi * random.uniform(0, 1))) * desviacion + media
         n2 = (pow((-2 * ln(random.uniform(0, 1))), 0.5) * math.sin(
