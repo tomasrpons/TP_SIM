@@ -24,7 +24,7 @@ def menu():
           "\n0 - Salir")
 
 def visualizar(numeros):
-    print(numeros)
+    print(sorted(numeros))
     print(len(numeros))
 
 def prueba_chi23(numeros, cant_int):
@@ -156,9 +156,10 @@ def main():
 
         if op == 4: #Normal
             op2 = -1
-            op2 = int(input("\nIngrese el método que desee: "
-                            "\n1 - Box - Muller"
-                            "\n2 - Convolución"))
+            op2 = int(input("\n1 - Box - Muller"
+                            "\n2 - Convolución"
+                            "\nIngrese el método que desee: "))
+
             if op2 == 1:
                 #Muller
                 cant_num = int(input("\nIngrese la cantidad de Valores: "))
