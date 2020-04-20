@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import style
 import tabulate
 import numpy as np
-
+import pandas as pd
 
 def aleatoria_uniforme(cant_num, lim_inf, lim_sup):
     numeros = []
@@ -290,11 +290,10 @@ def poisson(numeros, ddof, l):
                             tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
     print(res)
 
-    plt.hist(numeros, bins=(max-min)+1,
-             edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
-
-    plt.xlabel('Valores')
-    plt.ylabel('Frecuencia')
+    df = pd.DataFrame({"numero": contador, "intervalos":intervalos})
+    df.plot.bar(x = "intervalos", y = "numero")
+    plt.xlabel('Frecuencia')
+    plt.ylabel('Valores')
     plt.legend('EO')
     plt.title('Distribucion de los valores acuerdo a su frecuencia')
     plt.grid()
