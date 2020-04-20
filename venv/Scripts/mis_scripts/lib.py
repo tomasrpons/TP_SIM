@@ -11,7 +11,7 @@ def aleatoria_uniforme(cant_num, lim_inf, lim_sup):
     numeros = []
     for i in range(cant_num):
         x = lim_inf + random.uniform(0, 1) * (lim_sup - lim_inf)
-        numeros.append(x)
+        numeros.append(truncate(x,4))
     return numeros
 
 def aleatoria_exponencial(cant_numeros, lamda = 0, u = 0):
@@ -152,7 +152,7 @@ def prueba_chi2(numeros, cant_int, ddof, u):
 
     for i in range(cant_int):  # En este ciclo creamos los intervalos, la cantidad de contadores
         inicio += paso
-        intervalos.append(truncate(inicio, 2))  # Ver función truncate(numero, cant_decimales)
+        intervalos.append(inicio)  # Ver función truncate(numero, cant_decimales)
         contador.append(0)
 
     #Obtenemos la frecuencia esperada
@@ -174,7 +174,10 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     for i in range(len(numeros)):  # Para cada numero analiza el intervalo en el cual se encuentra
         for j in range(cant_int):  # y acumula 1 al valor. Aqui vemos la frecuencia obtenida.
             if numeros[i] <= intervalos[j]:
-                if numeros[i] > intervalos[j] - paso:
+                if truncate(numeros[i], 4) == intervalos[-1]:
+                    contador[-1] += 1
+                    break
+                if numeros[i] >= intervalos[j] - paso:
                     contador[j] += 1
                     break
 

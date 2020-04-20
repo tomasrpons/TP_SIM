@@ -1,4 +1,4 @@
-import lib as fn
+import lib
 import random
 import math
 from numpy import log as ln
@@ -25,6 +25,7 @@ def menu():
 
 def visualizar(numeros):
     print(numeros)
+    print(len(numeros))
 
 def prueba_chi23(numeros, cant_int):
     paso = (max(numeros)- min(numeros)) / cant_int             # Esta variable me permite generar los intervalos
@@ -104,13 +105,12 @@ def main():
             inter = int(input("Ingrese la cantidad de invervalos: "))
             lim_inf = float(input("Ingrese el límite inferior: "))
             lim_sup = float(input("Ingrese el límite superior: "))
-            numeros = fn.aleatoria_uniforme(cant_num,lim_inf,lim_sup)
+            numeros = lib.aleatoria_uniforme(cant_num,lim_inf,lim_sup)
 
-            ver = "n"
             ver = input("Desea ver los numeros generados (S/N): ")
             if ver in "sS":
                 visualizar(numeros)
-            fn.prueba_chi2(numeros, inter, 0, 0)
+            lib.prueba_chi2(numeros, inter, 0, 0)
 
 
         if op == 2: #Exponencial
@@ -121,9 +121,9 @@ def main():
             u = 0
             if l == 0:
                 u = float(input("Ingrese u: "))
-                numeros = fn.aleatoria_exponencial(cant_num,0,u)
+                numeros = lib.aleatoria_exponencial(cant_num,0,u)
             else:
-                numeros = fn.aleatoria_exponencial(cant_num, l, 0)
+                numeros = lib.aleatoria_exponencial(cant_num, l, 0)
 
             ver = "n"
             ver = input("Desea ver los numeros generados (S/N): ")
@@ -132,11 +132,11 @@ def main():
             print("\n======================== Prueba Chi de los numeros ========================")
 
             nueva_media = statistics.mean(numeros)
-            fn.prueba_chi2(numeros, inter, 1, nueva_media)
+            lib.prueba_chi2(numeros, inter, 1, nueva_media)
 
             #numerosPrueba = [0.10 , 0.25 , 1.53 , 2.83 , 3.50 , 4.14 , 5.65 , 6.96 , 7.19 ,8.25 ,1.20 , 5.24 , 4.75 , 3.96,2.21, 3.15 , 2.53 , 1.16 , 0.32 , 0.90 , 0.87 , 1.34
             #, 1.87 , 2.91 , 0.71 , 1.69 , 0.69 , 0.55 , 0.43 , 0.26]
-            #fn.prueba_chi2(numerosPrueba,10,1,statistics.mean(numerosPrueba))
+            #lib.prueba_chi2(numerosPrueba,10,1,statistics.mean(numerosPrueba))
 
 
         if op == 3: #Poisson
@@ -144,7 +144,7 @@ def main():
             cant_num = int(input("\nIngrese la cantidad de Valores: "))
             inter = int(input("Ingrese la cantidad de invervalos: "))
             media = float(input("Ingrese lambda: "))
-            numeros = fn.aleatoria_poisson(cant_num,media)
+            numeros = lib.aleatoria_poisson(cant_num,media)
 
             ver = "n"
             ver = input("Desea ver los numeros generados (S/N): ")
@@ -152,7 +152,7 @@ def main():
                 visualizar(numeros)
 
             nueva_media = statistics.mean(numeros)
-            fn.prueba_chi2(numeros, inter, 1, nueva_media)
+            lib.prueba_chi2(numeros, inter, 1, nueva_media)
 
         if op == 4: #Normal
             op2 = -1
@@ -165,21 +165,21 @@ def main():
                 inter = int(input("Ingrese la cantidad de invervalos: "))
                 media = float(input("Ingrese la media (0 por defecto): "))
                 des = float(input("Ingrese la desviación estándar (1 por defecto): "))
-                numeros = fn.aleatoria_normal_muller(cant_num, media, des)
+                numeros = lib.aleatoria_normal_muller(cant_num, media, des)
             if op2 == 2:
                 cant_n41um = int(input("\nIngrese la cantidad de Valores: "))
                 inter = int(input("Ingrese la cantidad de invervalos: "))
                 inter = int(input("Ingrese la cantidad de invervalos: "))
                 media = float(input("Ingrese la media (0.5 por defecto): "))
                 des = float(input("Ingrese la desviación estándar (0.083 por defecto): "))
-                numeros = fn.aleatoria_normal_convolucion(cant_num, media , des )
+                numeros = lib.aleatoria_normal_convolucion(cant_num, media , des )
 
             ver = "n"
             ver = input("Desea ver los numeros generados (S/N): ")
             if ver in "sS":
                 visualizar(numeros)
             media = statistics.mean(numeros)
-            fn.prueba_chi2(numeros, inter, 2, media)
+            lib.prueba_chi2(numeros, inter, 2, media)
 
 if __name__ == '__main__':
     main()
