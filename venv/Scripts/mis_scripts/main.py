@@ -142,7 +142,6 @@ def main():
         if op == 3: #Poisson
 
             cant_num = int(input("\nIngrese la cantidad de Valores: "))
-            inter = int(input("Ingrese la cantidad de invervalos: "))
             media = float(input("Ingrese lambda: "))
             numeros = lib.aleatoria_poisson(cant_num,media)
 
@@ -152,7 +151,7 @@ def main():
                 visualizar(numeros)
 
             nueva_media = statistics.mean(numeros)
-            lib.poisson(numeros, inter, 1, nueva_media)
+            lib.poisson(numeros, 1, nueva_media)
 
         if op == 4: #Normal
             op2 = -1

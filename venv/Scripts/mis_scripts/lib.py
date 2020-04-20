@@ -96,7 +96,7 @@ def calculaFactorial(n):
 def esperado_poisson(marca, lamda):
     numerador = pow(lamda, marca) * pow(math.e, (-lamda))
     denom = calculaFactorial(int(marca))
-    return (numerador / denom)
+    return (numerador/denom)
 
 
 def obtener_esperados_poisson(numeros, intervalos, l):
@@ -250,30 +250,29 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     print("\n")
 
 
-def poisson(numeros, cant_int, ddof, l):
+def poisson(numeros, ddof, l):
 
     #Obtenemos la frecuencia esperada
-    contador = [0] * len(np.unique(numeros))
-    frec_esperada = obtener_esperados_poisson(numeros,contador, l)
     min = np.min(numeros)
     max = np.max(numeros)
+    contador = [0] * ((max - min)+1)
 
     for i in range(len(numeros)):
-        contador[(numeros[i]-min)] += 1
+        if numeros[i] == max:
+            contador[-1] += 1
+        else:
+            contador[(numeros[i]-min)] += 1
 
-    for i in range(len(numeros)):
-        for j in range(len(contador)):
-            if numeros[i] == j + min:
+    intervalos = []
+    for i in range(len(contador)):
+        intervalos.append(i + min)
 
-
-
-
-
-
+    frec_esperada = obtener_esperados_poisson(numeros, intervalos, l)
+    print(np.sum(contador))
     est_prueba = []
     sumatoria = []
     suma = 0
-    for i in range(cant_int):  # Debido a que los numeros generados tienen demasiados decimales,
+    for i in range(len(contador)):  # Debido a que los numeros generados tienen demasiados decimales,
         if frec_esperada[i] == 0:
             a = 0
         else:
@@ -284,12 +283,14 @@ def poisson(numeros, cant_int, ddof, l):
         sumatoria.append(suma)
 
 
-    resultados = {'Intervalos': contador, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
+
+
+    resultados = {'Intervalos': intervalos, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
     res = tabulate.tabulate(resultados, headers=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'],
                             tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
     print(res)
 
-    plt.hist(numeros, bins=contador,
+    plt.hist(numeros, bins=(max-min)+1,
              edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
 
     plt.xlabel('Valores')
@@ -298,7 +299,7 @@ def poisson(numeros, cant_int, ddof, l):
     plt.title('Distribucion de los valores acuerdo a su frecuencia')
     plt.grid()
     plt.show()
-    valor_critico = valor_puntual(cant_int - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
+    valor_critico = valor_puntual(((max - min)+1) - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
     print("El valor crítico con 95% de significancia es: ", valor_critico)
     print("El estadístico de prueba es: ", suma)
     if valor_critico > suma:
