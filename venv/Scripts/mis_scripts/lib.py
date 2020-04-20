@@ -122,10 +122,12 @@ def obtener_esperados_exponencial(numeros, intervalos, l):
 
 
 def obtener_esperados_normal(numeros, intervalos):
-    media = stats.mean(numeros)
+    media = truncate(stats.mean(numeros),4)
     v = 0
+    paso = intervalos[1]- intervalos[0]
     for i in range(len(numeros)):
         v += pow((numeros[i] - media), 2)
+        v = truncate(v,4)
     varianza = (1 / (len(numeros) - 1)) * v
     desv = pow(varianza, 0.5)
     frec_esperada = []
@@ -133,7 +135,7 @@ def obtener_esperados_normal(numeros, intervalos):
     for x in range(len(intervalos) - 1):
         marca = (intervalos[x] + intervalos[x + 1]) / 2
         esperado = esperado_normal(marca, media, desv)
-        frec_esperada.append(truncate((esperado * len(numeros)), 4))
+        frec_esperada.append(truncate((esperado * len(numeros)*paso), 4))
     return frec_esperada
 
 
@@ -176,24 +178,18 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     if ddof == 2:
         frec_esperada = obtener_esperados_normal(numeros, intervals)
     elif ddof == 1:
-        if es_entero(numeros):
-            # poisson
-            frec_esperada = obtener_esperados_poisson(numeros, intervals, u)
-        else:
             # expon
             l = 1 / u
             frec_esperada = obtener_esperados_exponencial(numeros, intervals, l)
     elif ddof == 0:
         frec_esperada = [len(numeros) / cant_int] * cant_int
 
-    numeros = sorted(numeros)
-
     for i in range(len(numeros)):  # Para cada numero analiza el intervalo en el cual se encuentra
         for j in range(cant_int):  # y acumula 1 al valor. Aqui vemos la frecuencia obtenida.
             if numeros[i] <= intervalos[j]:
                 if numeros[i] == intervalos[-1]:
                     contador[-1] += 1
-                    print(contador)
+
                     break
                 if numeros[i] >= intervalos[j] - paso:
                     contador[j] += 1
@@ -231,8 +227,6 @@ def prueba_chi2(numeros, cant_int, ddof, u):
 
     plt.hist(numeros, bins=intervalos,
              edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
-    for i in range(len(intervals) - 1):
-        plt.axhline(frec_esperada[i], xmin=intervals[i], xmax=intervals[i + 1])
     plt.xlabel('Intervalos')
     plt.ylabel('Frecuencia')
     plt.legend('EO')
@@ -296,6 +290,7 @@ def poisson(numeros, ddof, l):
     plt.ylabel('Valores')
     plt.legend('EO')
     plt.title('Distribucion de los valores acuerdo a su frecuencia')
+    plt.xticks(rotation=60)
     plt.grid()
     plt.show()
     valor_critico = valor_puntual(((max - min)+1) - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
