@@ -6,8 +6,8 @@ import numpy as np
 
 def getData(nombre):
     # DETERMINO CUAL VA A SER EL PERIODO DE OBTENCION DE DATOS
-    start = dt.datetime(2017, 5, 1)
-    end = dt.datetime(2018, 1, 1)
+    start = dt.datetime(2019, 1, 1)
+    end = dt.datetime(2020, 1, 1)
 
     # OBTENGO LOS DATOS PARA EL PERIODO Y SIMBOLO SELECCIONADO
     df = web.DataReader(nombre, 'yahoo', start, end)
