@@ -22,7 +22,7 @@ def main():
     if op2 == 1:
         # Muller
         numeros = dt.getData(accion)
-        lib.prueba_ks2(numeros, "norm")
+        lib.prueba_ks(numeros, 20, 2)
 
     if op2 == 2:
         numeros = dt.getData(accion)

@@ -1,14 +1,12 @@
 import random
 import math
 from numpy import log as ln
-import statistics as statistics
+import statistics as stats
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import style
 import tabulate
 import numpy as np
 import pandas as pd
-from scipy import stats
-
 
 def aleatoria_uniforme(cant_num, lim_inf, lim_sup):
     numeros = []
@@ -304,16 +302,6 @@ def poisson(numeros, ddof, l):
     print("\n")
 
 
-
-def prueba_ks2(numeros, ddof):
-    d, p = stats.kstest(numeros, ddof)
-    print(d,p)
-    if p > d:
-        print("No se puede rechazar la hipótesis nula")
-    else:
-        print("Se rechaza la hipóteis nula")
-    print("\n")
-
 def prueba_ks(numeros, cant_int, ddof ):
     paso = truncate((max(numeros) - min(numeros)) / cant_int, 4)  # Esta variable me permite generar los intervalos
     inicio = min(numeros)
@@ -376,11 +364,11 @@ def prueba_ks(numeros, cant_int, ddof ):
     suma = 0
 
     for i in range(cant_int):
-        a = abs(PEA[i])-probabilidad_observada_AC[i]
+        a = abs(PEA[i]-probabilidad_observada_AC[i])
         est_prueba.append(a)
         if  est_prueba[i]>= suma:
             suma = est_prueba[i]
-            sumatoria.append(suma)
+        sumatoria.append(suma)
 
 
     anterior = min(numeros)
