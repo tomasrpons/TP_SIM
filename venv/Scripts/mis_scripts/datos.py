@@ -1,6 +1,7 @@
 import datetime as dt
 import pandas as pd
 import pandas_datareader as web
+import numpy as np
 
 
 def getData(nombre):
@@ -26,7 +27,7 @@ def limpiarDatos(df):
         close.append(value)
 
     print(len(close))
-    return close
+    return np.array(close)
 
 
 

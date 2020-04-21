@@ -1,12 +1,14 @@
 import random
 import math
 from numpy import log as ln
-import statistics as stats
+import statistics as statistics
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import style
 import tabulate
 import numpy as np
 import pandas as pd
+from scipy import stats
+
 
 def aleatoria_uniforme(cant_num, lim_inf, lim_sup):
     numeros = []
@@ -296,6 +298,17 @@ def poisson(numeros, ddof, l):
     print("El valor crítico con 95% de significancia es: ", valor_critico)
     print("El estadístico de prueba es: ", suma)
     if valor_critico > suma:
+        print("No se puede rechazar la hipótesis nula")
+    else:
+        print("Se rechaza la hipóteis nula")
+    print("\n")
+
+
+
+def prueba_ks2(numeros, ddof):
+    d, p = stats.kstest(numeros, ddof)
+    print(d,p)
+    if p > d:
         print("No se puede rechazar la hipótesis nula")
     else:
         print("Se rechaza la hipóteis nula")
