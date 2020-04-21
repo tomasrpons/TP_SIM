@@ -233,8 +233,7 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     plt.title('Distribucion de los valores acuerdo a su frecuencia')
     plt.grid()
     plt.show()
-    valor_critico = valor_puntual(cant_int - 1,
-                                  ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
+    valor_critico = valor_puntual(cant_int - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
     print("El valor crítico con 95% de significancia es: ", valor_critico)
     print("El estadístico de prueba es: ", suma)
     if valor_critico > suma:
@@ -302,4 +301,103 @@ def poisson(numeros, ddof, l):
         print("Se rechaza la hipóteis nula")
     print("\n")
 
+def prueba_ks(numeros, cant_int, ddof ):
+    for i in range(cant_int - 1):  # En este ciclo creamos los intervalos, la cantidad de contadores
+        inicio += paso
+        intervalos.append(truncate(inicio, 4))  # Ver función truncate(numero, cant_decimales)
+        contador.append(0)
+    intervalos.append(max(numeros))
+    contador.append(0)
 
+    # Obtenemos la frecuencia esperada
+    intervals = [min(numeros)] + intervalos
+
+    if ddof == 2:
+        frec_esperada = obtener_esperados_normal(numeros, intervals)
+    elif ddof == 1:
+            # expon
+            l = 1 / u
+            frec_esperada = obtener_esperados_exponencial(numeros, intervals, l)
+    elif ddof == 0:
+        frec_esperada = [len(numeros) / cant_int] * cant_int
+
+
+    for i in range(len(numeros)):  # Para cada numero analiza el intervalo en el cual se encuentra
+        for j in range(cant_int):  # y acumula 1 al valor. Aqui vemos la frecuencia obtenida.
+            if numeros[i] <= intervalos[j]:
+                if numeros[i] == intervalos[-1]:
+                    contador[-1] += 1
+
+                    break
+                if numeros[i] >= intervalos[j] - paso:
+                    contador[j] += 1
+                    break
+                if numeros[i] < intervalos[0]:
+                    contador[0] += 1
+                    break
+
+    print(sum(contador))
+    print(sum(frec_esperada))
+
+    probabilidad_observada = []
+    probabilidad_observada_AC = []
+    acumulador = 0
+    for i in range(len(numeros)):
+        aux = contador[i]/len(numeros)
+        probabilidad_observada.append(aux)
+        acumulador += aux
+        probabilidad_observada_AC.append(acumulador)
+
+    probabilidad_esperada = []
+    PEA = []
+    acumulador2 = 0
+
+
+    for i in range(len(numeros)):
+        aux = frec_esperada[i]/len(numeros)
+        probabilidad_esperada.append(aux)
+        acumulador2 += aux
+        PEA.append(acumulador2)
+
+
+
+
+    est_prueba = []
+    sumatoria = []
+    suma = 0
+
+    for i in range(cant_int):
+        a = max(abs(PEA[i])-probabilidad_observada_AC[i])
+        est_prueba.append(a)
+        suma += a
+        sumatoria.append(suma)
+
+#########################################################################
+
+
+    anterior = min(numeros)
+    interval = []
+    for i in range(cant_int):  # Crea un array de string para imprimir de que valor min a max van los intervalos.
+        interval.append("De " + str(anterior) + " a " + str(intervalos[i]))
+        anterior = intervalos[i]
+    resultados = {'Intervalos': interval, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
+    res = tabulate.tabulate(resultados, headers=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'],
+                            tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
+    print(res)
+
+    plt.hist(numeros, bins=intervalos,
+             edgecolor='black')  # Utilizamos la libreria Pandas para crear DataFrames para poder generar los gráficos.
+    plt.xlabel('Intervalos')
+    plt.ylabel('Frecuencia')
+    plt.legend('EO')
+    plt.title('Distribucion de los valores acuerdo a su frecuencia')
+    plt.grid()
+    plt.show()
+    valor_critico = valor_puntual(cant_int - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
+    print("El valor crítico con 95% de significancia es: ", valor_critico)
+    print("El estadístico de prueba es: ", suma)
+    if valor_critico > suma:
+        print("No se puede rechazar la hipótesis nula")
+    else:
+        print("Se rechaza la hipóteis nula")
+    print("\n")
