@@ -12,9 +12,9 @@ def getData(nombre):
     df = web.DataReader(nombre, 'yahoo', start, end)
 
     # LIMPIO LOS DATOS Y ME QUEDO UNICAMENTE CON LA COLUMNA DEL ADJ CLOSE
-    df_final = limpiarDatos(df)
+    vector = limpiarDatos(df)
 
-    return df_final
+    return vector
 
 def limpiarDatos(df):
 
@@ -22,14 +22,11 @@ def limpiarDatos(df):
     df = df['Adj Close']
     df.index = pd.to_datetime(df.index)
     close = []
-    date = []
     for index, value in df.items():
         close.append(value)
-        date.append(index)
 
-    datos = {'Fecha':date, 'Adj Close':close}
-    df = pd.DataFrame(data=datos)
-    return df
+    return close
+
 
 
 
