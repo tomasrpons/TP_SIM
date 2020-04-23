@@ -22,6 +22,7 @@ def main():
     if op2 == 1:
         # Muller
         numeros = dt.getData(accion)
+        dt.to_CSV(numeros)
         lib.prueba_ks(numeros, 20, 2)
 
     if op2 == 2:
