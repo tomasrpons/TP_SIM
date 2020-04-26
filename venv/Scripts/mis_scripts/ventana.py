@@ -49,22 +49,22 @@ def codigoBoton():
         est.configure(text="El estadístico de prueba es: " + str(suma))
         vc.configure(text="El valor crítico con 95% de significancia es: " + str(valor_critico))
 
-        fig = Figure(figsize=(8, 6), dpi=100)
-        ax = fig.add_subplot(111)
-        df.plot.hist(bins=12, alpha=0.5, ax=ax)
-        canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=50, column=2)
-
-        cols2 = list(df_datos.columns)
-        tabla2["columns"] = cols2
-        for i in cols2:
-            tabla2.column(i,width=50)
-            tabla2.column(i, anchor="w")
-            tabla2.heading(i, text=i, anchor='w')
-
-        for index, row in df_datos.iterrows():
-            tabla2.insert("", 0, text=index, values=list(row))
+        # fig = Figure(figsize=(8, 6), dpi=100)
+        # ax = fig.add_subplot(111)
+        # df.plot.hist(bins=12, alpha=0.5, ax=ax)
+        # canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
+        # canvas.draw()
+        # canvas.get_tk_widget().grid(row=50, column=2)
+        #
+        # cols2 = list(df_datos.columns)
+        # tabla2["columns"] = cols2
+        # for i in cols2:
+        #     tabla2.column(i,width=50)
+        #     tabla2.column(i, anchor="w")
+        #     tabla2.heading(i, text=i, anchor='w')
+        #
+        # for index, row in df_datos.iterrows():
+        #     tabla2.insert("", 0, text=index, values=list(row))
 
 
     if opciones.get() == "Poisson":
@@ -87,22 +87,22 @@ def codigoBoton():
         est.configure(text="El estadístico de prueba es: " + str(suma))
         vc.configure(text="El valor crítico con 95% de significancia es: " + str(valor_critico))
 
-        fig = Figure(figsize=(8, 6), dpi=100)
-        ax = fig.add_subplot(111)
-        df.plot.hist(bins=12, alpha=0.5, ax=ax)
-        canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=50, column=2)
-
-        cols2 = list(df_datos.columns)
-        tabla2["columns"] = cols2
-        for i in cols2:
-            tabla2.column(i, width=50)
-            tabla2.column(i, anchor="w")
-            tabla2.heading(i, text=i, anchor='w')
-
-        for index, row in df_datos.iterrows():
-            tabla2.insert("", 0, text=index, values=list(row))
+        # fig = Figure(figsize=(8, 6), dpi=100)
+        # ax = fig.add_subplot(111)
+        # df.plot.hist(bins=12, alpha=0.5, ax=ax)
+        # canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
+        # canvas.draw()
+        # canvas.get_tk_widget().grid(row=50, column=2)
+        #
+        # cols2 = list(df_datos.columns)
+        # tabla2["columns"] = cols2
+        # for i in cols2:
+        #     tabla2.column(i, width=50)
+        #     tabla2.column(i, anchor="w")
+        #     tabla2.heading(i, text=i, anchor='w')
+        #
+        # for index, row in df_datos.iterrows():
+        #     tabla2.insert("", 0, text=index, values=list(row))
 
 
     if opciones.get() == "Exponencial":
@@ -129,22 +129,22 @@ def codigoBoton():
         est.configure(text="El estadístico de prueba es: " + str(suma))
         vc.configure(text="El valor crítico con 95% de significancia es: " + str(valor_critico))
 
-        fig = Figure(figsize=(8, 6), dpi=100)
-        ax = fig.add_subplot(111)
-        df.plot.hist(bins=12, alpha=0.5, ax=ax)
-        canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=50, column=2)
-
-        cols2 = list(df_datos.columns)
-        tabla2["columns"] = cols2
-        for i in cols2:
-            tabla2.column(i,width=50)
-            tabla2.column(i, anchor="w")
-            tabla2.heading(i, text=i, anchor='w')
-
-        for index, row in df_datos.iterrows():
-            tabla2.insert("", 0, text=index, values=list(row))
+        # fig = Figure(figsize=(8, 6), dpi=100)
+        # ax = fig.add_subplot(111)
+        # df.plot.hist(bins=12, alpha=0.5, ax=ax)
+        # canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
+        # canvas.draw()
+        # canvas.get_tk_widget().grid(row=50, column=2)
+        #
+        # cols2 = list(df_datos.columns)
+        # tabla2["columns"] = cols2
+        # for i in cols2:
+        #     tabla2.column(i,width=50)
+        #     tabla2.column(i, anchor="w")
+        #     tabla2.heading(i, text=i, anchor='w')
+        #
+        # for index, row in df_datos.iterrows():
+        #     tabla2.insert("", 0, text=index, values=list(row))
 
     if opciones.get() == "Normal":
 
@@ -174,22 +174,22 @@ def codigoBoton():
         est.configure(text="El estadístico de prueba es: " + str(suma))
         vc.configure(text="El valor crítico con 95% de significancia es: " + str(valor_critico))
 
-        fig = Figure(figsize=(8, 6), dpi=100)
-        ax = fig.add_subplot(111)
-        df.plot.hist(bins=12, alpha=0.5, ax=ax)
-        canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
-        canvas.draw()
-        canvas.get_tk_widget().grid(row=50, column=2)
-
-        cols2 = list(df_datos.columns)
-        tabla2["columns"] = cols2
-        for i in cols2:
-            tabla2.column(i,width=50)
-            tabla2.column(i, anchor="w")
-            tabla2.heading(i, text=i, anchor='w')
-
-        for index, row in df_datos.iterrows():
-            tabla2.insert("", 0, text=index, values=list(row))
+        # fig = Figure(figsize=(8, 6), dpi=100)
+        # ax = fig.add_subplot(111)
+        # df.plot.hist(bins=12, alpha=0.5, ax=ax)
+        # canvas = FigureCanvasTkAgg(fig, master=raiz)  # A tk.DrawingArea.
+        # canvas.draw()
+        # canvas.get_tk_widget().grid(row=50, column=2)
+        #
+        # cols2 = list(df_datos.columns)
+        # tabla2["columns"] = cols2
+        # for i in cols2:
+        #     tabla2.column(i,width=50)
+        #     tabla2.column(i, anchor="w")
+        #     tabla2.heading(i, text=i, anchor='w')
+        #
+        # for index, row in df_datos.iterrows():
+        #     tabla2.insert("", 0, text=index, values=list(row))
 
 
 def media_o_lambda():
