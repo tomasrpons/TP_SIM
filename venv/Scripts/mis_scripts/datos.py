@@ -32,7 +32,7 @@ def limpiarDatos(df):
 def to_CSV(numeros):
     datos = {'Valores' : numeros}
     df = pd.DataFrame(datos, columns=['Valores'])
-    df.to_csv(r"C:\\Users\\Tomas\\PycharmProjects\\SIM\\venv\\Scripts\csv\\csv", index=True)
+    df.to_csv(r"C:\\Users\\Tomas\\PycharmProjects\\SIM\\venv\\Scripts\\csv\\archivo", index=False)
 
 
 

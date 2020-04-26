@@ -221,6 +221,8 @@ def prueba_chi2(numeros, cant_int, ddof, u):
         interval.append("De " + str(anterior) + " a " + str(intervalos[i]))
         anterior = intervalos[i]
     resultados = {'Intervalos': interval, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
+    datos = {'Intervalos': interval, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)':sumatoria}
+    df = pd.DataFrame(datos, columns=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'])
     res = tabulate.tabulate(resultados, headers=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'],
                             tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
     print(res)
@@ -234,13 +236,12 @@ def prueba_chi2(numeros, cant_int, ddof, u):
     plt.grid()
     plt.show()
     valor_critico = valor_puntual(cant_int - 1, ddof)  # Obtenemos el valor crítico para comparar con el estadístico de prueba.
-    print("El valor crítico con 95% de significancia es: ", valor_critico)
-    print("El estadístico de prueba es: ", suma)
+    # print("El valor crítico con 95% de significancia es: ", valor_critico)
+    # print("El estadístico de prueba es: ", suma)
     if valor_critico > suma:
-        print("No se puede rechazar la hipótesis nula")
+        return "No se rechaza la hipotesis nula", valor_critico, suma, df
     else:
-        print("Se rechaza la hipóteis nula")
-    print("\n")
+        return "Se rechaza la hipotesis nula", valor_critico, suma, df
 
 
 def poisson(numeros, ddof, l):
@@ -279,6 +280,8 @@ def poisson(numeros, ddof, l):
 
 
     resultados = {'Intervalos': intervalos, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)': sumatoria}
+    datos = {'Intervalos': intervalos, 'FO': contador, 'FE': frec_esperada, 'C': est_prueba, 'C(AC)':sumatoria}
+    df_final = pd.DataFrame(datos, columns=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'])
     res = tabulate.tabulate(resultados, headers=['Intervalos', 'FO', 'FE', 'C', 'C(AC)'],
                             tablefmt='fancy_grid')  # Creamos la tabla para imprimir con la librería tabulate
     print(res)
@@ -296,10 +299,9 @@ def poisson(numeros, ddof, l):
     print("El valor crítico con 95% de significancia es: ", valor_critico)
     print("El estadístico de prueba es: ", suma)
     if valor_critico > suma:
-        print("No se puede rechazar la hipótesis nula")
+        return "No se rechaza la hipotesis nula", valor_critico, suma, df_final
     else:
-        print("Se rechaza la hipóteis nula")
-    print("\n")
+        return "Se rechaza la hipotesis nula", valor_critico, suma, df_final
 
 
 def prueba_ks(numeros, cant_int, ddof ):

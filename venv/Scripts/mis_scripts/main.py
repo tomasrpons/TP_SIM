@@ -49,7 +49,7 @@ def main():
             u = 0
             if l == 0:
                 u = float(input("Ingrese u: "))
-                numeros = lib.aleatoria_exponencial(cant_num,0,u)
+                numeros = lib.aleatoria_exponencial(cant_num, 0, u)
             else:
                 numeros = lib.aleatoria_exponencial(cant_num, l, 0)
 
@@ -96,12 +96,15 @@ def main():
                 des = float(input("Ingrese la desviación estándar (0.083 por defecto): "))
                 numeros = lib.aleatoria_normal_convolucion(cant_num, media , des )
 
-            ver = "n"
             ver = input("Desea ver los numeros generados (S/N): ")
             if ver in "sS":
                 visualizar(numeros)
             media = statistics.mean(numeros)
             lib.prueba_chi2(numeros, inter, 2, media)
+
+
+
+
 
 if __name__ == '__main__':
     main()
